@@ -6,6 +6,11 @@ This is the minimal backend implementation in Spring and consists the APIs for u
 
 Install Java 17, PostgreSQL and modify the corresponding fields at `resources/application.properties`. Database tables are defined at `tables.sql` which should be created before running. Default port is 8080 and OpenAPI documentation is at `/swagger-ui/index.html`.
 
+To start the backend, use
+```
+./gradlew bootRun
+```
+
 ## Design
 The basic idea is to first *sign in* (not actually) by providing a unique username. Then the user can send / search posts, search / (un)follow other users. 
 
