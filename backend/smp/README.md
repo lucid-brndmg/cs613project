@@ -12,9 +12,27 @@ To start the backend, use
 ```
 
 ## Design
+
+All APIs use `POST` method with request and response in JSON format. The following table shows all APIs implemented (for details please visit `/swagger-ui/index.html`):
+
+| API                   | Description                                                                                                                                                                                |
+|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `/user/upsert`        | Insert a new user by provided `username`, or update login time if exists; Returning user info.                                                                                             |
+| `/user/locate`        | Find a specific user by provided `username`, or user ID (`uid`)                                                                                                                            |
+| `/user/search`        | Fuzzy search many users by provided `username` keyword                                                                                                                                     |
+| `/user/following`     | List all users followed by provided `uid`                                                                                                                                                  |
+| `/user/follower`      | List all users who follows provided `uid`                                                                                                                                                  |
+| `/user/follow/toggle` | Follow or unfollow a specific user by provided `uid` and returns the follow-status in Boolean                                                                                              |
+| `/post/create`        | Send a new post by providing `uid` and `content`                                                                                                                                           |
+| `/post/remove`        | Remove a post by providing post ID (`pid`)                                                                                                                                                 |
+| `/post/locate`        | Locate a specific post by `pid` (`null` for non-existing `pid`)                                                                                                                            |
+| `/post/feed`          | **important** List all posts that sent by users who are being followed by provided `uid`. If `timeFrom` is provided then shows only sent after `timeFrom`. Supports searching by keywords. |
+| `/post/search`        | List all posts that sent if `uid` provided, or list all posts of the website otherwise. If `timeFrom` is provided then shows only sent after `timeFrom`. Supports  searching by keywords.  |
+
+
 The basic idea is to first *sign in* (not actually) by providing a unique username. Then the user can send / search posts, search / (un)follow other users. 
 
-There are 2 APIs for locating posts: `/search` and `/feed` where both support full-text search and filtering by date. The differences are:
+There are 2 APIs for locating posts: `/post/search` and `/post/feed` where both support full-text search and filtering by date. The differences are:
 - `/feed` requires the 'current' user ID (by providing from frontend, again, there is NO SESSION) then locate all (or selected) posts from all users that the current user follows (like twitter). 
 - `/search` does not require the current user ID. If an UID is provided then API locates the posts of provided user.
 
@@ -27,7 +45,7 @@ All `limit`, `offset` fields of requests are for pagination where the usage is e
 }
 ```
 
-If `success`, the `msg` is always `success` and the content is any format of JSON response content (i.e. can be `null`, simple Boolean, or composite structures depending on the location). If `!success`, `content` is always `null` and `msg` indicates the error message in format of `A:B:C` where `A` is Java class path of exception, `B` is requested URI, `C` is error message. Example: `com.cs613.smp.exn.InvalidUIDExn:/post/create:Invalid UID` when `uid` not provided when sending posts.
+If `success`, the `msg` is always `success`, and `T` is any format of JSON response content (i.e. can be `null`, simple Boolean, or composite structures depending on the location). If `!success`, `content` is always `null` and `msg` indicates the error message in format of `A:B:C` where `A` is Java class path of exception, `B` is requested URI, `C` is error message. Example: `com.cs613.smp.exn.InvalidUIDExn:/post/create:Invalid UID` when `uid` not provided when sending posts.
 
 For implementing notifications, it is recommended to first `/user/upsert` a username (to simulate login), then polling `/post/feed` with appropriate time. Pseudocode:
 ```
