@@ -3,13 +3,15 @@ package com.cs613.smp.entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class UserSearchReq {
-    @Schema(description = "optional keyword of username, can be inaccurate")
+    @Schema(nullable = true, description = "optional search keyword of username")
     private String username;
 
+    @Schema(nullable = true, description = "pagination parameter, pass to SQL")
     private Integer limit;
+    @Schema(nullable = true, description = "pagination parameter, pass to SQL")
     private Integer offset;
 
-    @Schema(description = "Optional current uid, locates following/follower relation if provided")
+    @Schema(nullable = true, description = "Optional current uid, showing following/follower relation if provided")
     private Long uidIdentity;
 
     public Long getUidIdentity() {

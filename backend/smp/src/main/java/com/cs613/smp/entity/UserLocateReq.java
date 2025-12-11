@@ -3,12 +3,12 @@ package com.cs613.smp.entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class UserLocateReq {
-    @Schema(description = "Provide ONLY username when upsert, without uid nor uidIdentity")
+    @Schema(nullable = true, description = "Provide ONLY username when upsert, without uid nor uidIdentity")
     private String username;
-    @Schema(description = "Provide EITHER username or uid when locating")
+    @Schema(nullable = true, description = "Provide EITHER username or uid when locating")
     private Long uid;
 
-    @Schema(description = "Optional current uid, locates following/follower relation if provided")
+    @Schema(nullable = true, description = "Optional current uid, locates following/follower relation if provided")
     private Long uidIdentity;
 
     public Long getUidIdentity() {

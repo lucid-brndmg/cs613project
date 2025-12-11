@@ -13,6 +13,10 @@ To start the backend, use
 
 ## Design
 
+**NOTE: 'optional' fields meaning these values can be `null`. Sometimes Swagger UI displays examples incorrectly (e.g. `limit` set to 0): Ignore examples and set these fields to `null` safely!**
+
+Detailed documents are here: `http://localhost:8080/swagger-ui/index.html`
+
 All APIs use `POST` method with request and response in JSON format. The following table shows all APIs implemented (for details please visit `/swagger-ui/index.html`):
 
 | API                   | Description                                                                                                                                                                                |

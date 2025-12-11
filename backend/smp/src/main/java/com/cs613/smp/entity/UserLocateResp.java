@@ -1,6 +1,7 @@
 package com.cs613.smp.entity;
 
 import com.cs613.smp.entity.dto.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +14,9 @@ public class UserLocateResp {
     private Long countFollower;
     private Long countPosts;
 
+    @Schema(nullable = true, description = "is uidIdentity following this user, if uidIdentity not null and not equals to this user id, otherwise null")
     private Boolean isFollowing;
+    @Schema(nullable = true, description = "is this user following uidIdentity, if uidIdentity not null and not equals to this user id, otherwise null")
     private Boolean isFollower;
 
     public String getUsername() {
