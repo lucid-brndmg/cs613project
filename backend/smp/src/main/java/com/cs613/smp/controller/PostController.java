@@ -1,9 +1,10 @@
 package com.cs613.smp.controller;
 
 import com.cs613.smp.entity.ApiResponse;
+import com.cs613.smp.entity.PostLocateReq;
 import com.cs613.smp.entity.dto.Post;
 import com.cs613.smp.entity.PostFeedReq;
-import com.cs613.smp.entity.PostReq;
+import com.cs613.smp.entity.PostCreationReq;
 import com.cs613.smp.exn.EmptyPIDExn;
 import com.cs613.smp.exn.EmptyUIDExn;
 import com.cs613.smp.exn.InvalidPostContentExn;
@@ -33,7 +34,7 @@ public class PostController {
 
     @Operation(description = "send a post, Post id (pid) is ignored, other fields are mandatory")
     @PostMapping("/create")
-    public ApiResponse<Long> create(@RequestBody PostReq req) throws Exception {
+    public ApiResponse<Long> create(@RequestBody PostCreationReq req) throws Exception {
         String content = req.getContent();
         if (content == null || content.isEmpty() || content.length() > 250) {
             throw new InvalidPostContentExn();
@@ -52,7 +53,7 @@ public class PostController {
 
     @Operation(description = "ONLY pid is meaningful, other fields are ignored")
     @PostMapping("/remove")
-    public ApiResponse<Object> remove(@RequestBody PostReq req) {
+    public ApiResponse<Object> remove(@RequestBody PostLocateReq req) {
         if (req.getPid() != null) {
             postRepo.deleteById(req.getPid());
         }
@@ -61,7 +62,7 @@ public class PostController {
 
     @Operation(description = "Locate a specific post by pid (other fields are ignored)")
     @PostMapping("/locate")
-    public ApiResponse<Optional<Post>> locate(@RequestBody PostReq req) throws Exception {
+    public ApiResponse<Optional<Post>> locate(@RequestBody PostLocateReq req) throws Exception {
         Long pid = req.getPid();
         if (pid == null) {
             throw new EmptyPIDExn();
