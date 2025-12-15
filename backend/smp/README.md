@@ -4,10 +4,42 @@ This is the minimal backend implementation in Spring and consists the APIs for u
 
 ## Configuration
 
+### Option 1: Docker (Recommended)
+
+The easiest way to run the backend is using Docker Compose, which will automatically set up both the PostgreSQL database and the Spring Boot application.
+
+**Prerequisites:**
+- Docker and Docker Compose installed
+
+**Steps:**
+1. Start the services:
+```bash
+docker-compose up -d
+```
+
+2. Check the logs:
+```bash
+docker-compose logs -f backend
+```
+
+3. Stop the services:
+```bash
+docker-compose down
+```
+
+4. Stop and remove volumes (to reset the database):
+```bash
+docker-compose down -v
+```
+
+The backend will be available at `http://localhost:8080` and the database will be initialized automatically with the schema from `tables.sql` and seed data from `seed.sql`.
+
+### Option 2: Manual Setup
+
 Install Java 17, PostgreSQL and modify the corresponding fields at `resources/application.properties`. Database tables are defined at `tables.sql` which should be created before running. Default port is 8080 and OpenAPI documentation is at `/swagger-ui/index.html`.
 
 To start the backend, use
-```
+```bash
 ./gradlew bootRun
 ```
 

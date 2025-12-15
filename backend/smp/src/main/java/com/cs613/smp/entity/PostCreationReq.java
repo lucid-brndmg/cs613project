@@ -8,6 +8,11 @@ public class PostCreationReq {
     @Schema(description = "post content: should not exceed 250 unicode chars by spec")
     private String content;
 
+    @Schema(description = "parent post id for replies")
+    private Long parentPid;
+    @Schema(description = "reference post id for reposts")
+    private Long referencePid;
+
     public Long getUid() {
         return uid;
     }
@@ -22,5 +27,21 @@ public class PostCreationReq {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Long getParentPid() {
+        return parentPid;
+    }
+
+    public void setParentPid(Long parentPid) {
+        this.parentPid = parentPid;
+    }
+
+    public Long getReferencePid() {
+        return referencePid;
+    }
+
+    public void setReferencePid(Long referencePid) {
+        this.referencePid = referencePid;
     }
 }

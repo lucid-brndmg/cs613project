@@ -12,10 +12,10 @@ public interface PostRepo extends CrudRepository<Post, Long> {
     @Query("select count(*) from t_post where uid = :uid")
     Long countPostsByUid(@Param("uid") Long uid);
 
-    @Query("select t_post.* from t_post join t_user_follow on t_user_follow.uid_target = t_post.uid where t_user_follow.uid_source = :uid and t_post.time_created >= :from order by t_post.time_created desc limit :limit offset :offset")
+    @Query("select t_post.* from t_post left join t_user_follow on t_user_follow.uid_target = t_post.uid and t_user_follow.uid_source = :uid where t_post.time_created >= :from order by case when t_user_follow.uid_source is not null then 0 else 1 end, t_post.time_created desc limit :limit offset :offset")
     List<Post> findAllFeedFrom(@Param("uid") Long uid, @Param("from") LocalDateTime from, @Param("limit") Integer limit, @Param("offset") Integer offset);
 
-    @Query("select t_post.* from t_post join t_user_follow on t_user_follow.uid_target = t_post.uid where t_post.content like concat('%', :content, '%') and t_user_follow.uid_source = :uid and t_post.time_created >= :from order by t_post.time_created desc limit :limit offset :offset")
+    @Query("select t_post.* from t_post left join t_user_follow on t_user_follow.uid_target = t_post.uid and t_user_follow.uid_source = :uid where t_post.content like concat('%', :content, '%') and t_post.time_created >= :from order by case when t_user_follow.uid_source is not null then 0 else 1 end, t_post.time_created desc limit :limit offset :offset")
     List<Post> searchAllFeed(@Param("content") String content, @Param("uid") Long uid, @Param("from") LocalDateTime from, @Param("limit") Integer limit, @Param("offset") Integer offset);
 
 
